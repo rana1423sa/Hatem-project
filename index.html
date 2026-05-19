@@ -3,9 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>خدمتك | ورشتك لعندك - نسخة التسليم النهائية</title>
+    <title>خدمتك | ورشتك لعندك - نسخة التسليم النهائية المتكاملة</title>
 
-    <!-- تضمين المكتبات الخارجية لضمان العمل من أي مكان -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link
       href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;600;700&display=swap"
@@ -81,9 +80,9 @@
         touch-action: manipulation;
       }
 
-      /* ====== Presentation Overlay ====== */
+      /* ====== طبقة العرض التوضيحي التوضيحي ====== */
       #presentationOverlay {
-        display: none;
+        display: flex;
         position: fixed;
         inset: 0;
         background: radial-gradient(circle at center, #1e293b 0%, #020617 100%);
@@ -92,71 +91,55 @@
         align-items: center;
         justify-content: center;
         text-align: center;
-        border: 8px solid #06b6d422;
+        border: 8px solid #06b6d411;
       }
       .scene {
         display: none;
         max-width: 800px;
         padding: 40px;
-        animation: scaleUp 0.6s ease-out;
+        animation: scaleUp 0.6s ease-out forwards;
+      }
+      .scene.active-scene {
+        display: block;
       }
       @keyframes scaleUp {
         from {
           opacity: 0;
-          transform: scale(0.9);
+          transform: scale(0.95);
         }
         to {
           opacity: 1;
           transform: scale(1);
         }
       }
-
-      .guide-step-box {
-        position: fixed;
-        z-index: 1500;
-        background: #facc15;
-        color: #000;
-        padding: 15px 25px;
-        border-radius: 20px;
-        font-weight: 800;
-        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-        display: none;
-      }
-      .highlight {
-        outline: 6px solid #facc15;
-        outline-offset: 10px;
-        z-index: 1400;
-        position: relative;
-      }
     </style>
   </head>
 
   <body class="gradient-bg min-h-screen">
-    <!-- نظام التنبيهات العائم -->
     <div
       id="toast"
-      class="fixed bottom-10 left-1/2 -translate-x-1/2 bg-cyan-500 text-slate-900 px-8 py-3 rounded-full font-bold shadow-2xl transition-all opacity-0 translate-y-10 z-[200] pointer-events-none"
+      class="fixed bottom-10 left-1/2 -translate-x-1/2 bg-cyan-500 text-slate-900 px-8 py-3 rounded-full font-bold shadow-2xl transition-all opacity-0 translate-y-10 z-[200] pointer-events-none text-center min-w-[250px]"
     >
       تمت العملية بنجاح!
     </div>
 
-    <!-- طبقة الفيديو التوضيحي (تظهر عند التشغيل) -->
     <div id="presentationOverlay">
       <button
         onclick="closePresentation()"
-        class="absolute top-10 left-10 bg-white/10 p-4 rounded-full hover:bg-red-500 transition"
+        class="absolute top-10 left-10 bg-white/10 p-4 rounded-full hover:bg-red-500 transition group"
+        title="تخطي العرض"
       >
-        <i class="fas fa-times text-2xl text-white"></i>
+        <i class="fas fa-times text-2xl text-white group-hover:scale-110 transition-transform"></i>
       </button>
 
-      <div id="scene-1" class="scene">
+      <div id="scene-1" class="scene active-scene">
         <div
-          class="w-24 h-24 bg-cyan-500 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-2xl shadow-cyan-500/50"
+          class="w-24 h-24 bg-cyan-500 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-2xl shadow-cyan-500/50 animate-float"
         >
           <i class="fas fa-rocket text-4xl text-slate-900"></i>
         </div>
         <h2 class="text-5xl font-black text-white mb-6">مرحباً بك في مستقبل الصيانة</h2>
-        <p class="text-2xl text-cyan-400 font-bold">مشروع "خدمتك" </p>
+        <p class="text-2xl text-cyan-400 font-bold">مشروع "خدمتك"</p>
         <p class="text-slate-400 mt-6 text-xl leading-relaxed">
           قمنا ببناء بيئة تفاعلية تسمح للعميل بطلب الخدمة في أقل من 30 ثانية مع نظام تتبع
           جغرافي متطور.
@@ -165,12 +148,13 @@
 
       <div id="scene-2" class="scene">
         <div
-          class="w-24 h-24 bg-yellow-500 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-2xl shadow-yellow-500/50"
+          class="w-24 h-24 bg-yellow-500 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-2xl shadow-yellow-500/50 animate-float"
         >
           <i class="fas fa-map-location-dot text-4xl text-slate-900"></i>
         </div>
         <h2 class="text-5xl font-black text-white mb-6">نظام تتبع حي (Live GPS)</h2>
         <p class="text-2xl text-yellow-500 font-bold">أمان وشفافية مطلقة</p>
+        
       </div>
 
       <div id="scene-3" class="scene">
@@ -183,15 +167,14 @@
         
         <button
           onclick="closePresentation()"
-          class="mt-10 bg-white text-slate-900 px-8 py-3 rounded-full font-black hover:bg-cyan-500 transition"
+          class="mt-10 bg-white text-slate-900 px-8 py-3 rounded-full font-black hover:bg-cyan-500 hover:scale-105 transition shadow-xl"
         >
           ابدأ استكشاف الموقع
         </button>
       </div>
     </div>
 
-    <!-- القائمة العلوية -->
-    <nav class="border-b border-cyan-900/30 p-4 bg-slate-900/50 backdrop-blur-md sticky top-0 z-50 relative z-10">
+    <nav class="border-b border-cyan-900/30 p-4 bg-slate-900/50 backdrop-blur-md sticky top-0 z-50">
       <div class="container mx-auto flex justify-between items-center">
         <div
           class="flex items-center gap-3 cursor-pointer group"
@@ -209,275 +192,365 @@
           <a href="javascript:void(0)" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="hover:text-cyan-400 transition">الرئيسية</a>
           <a href="#services" class="hover:text-cyan-400 transition">خدماتنا</a>
           <a href="#tracking" class="hover:text-cyan-400 transition">تتبع الفني</a>
-          <a href="javascript:void(0)" onclick="showToast('قريباً: مركز الاتصال الموحد')" class="hover:text-cyan-400 transition">اتصل بنا</a>
+          <a href="javascript:void(0)" onclick="toggleModal('adminDashboardModal')" class="text-yellow-400 hover:text-yellow-300 transition font-bold"><i class="fas fa-chart-line ml-1"></i> لوحة المدير</a>
         </div>
 
         <button
-          onclick="toggleModal('loginModal')"
+          id="navLoginBtn"
+          onclick="toggleModal('registerModal')"
           class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 px-6 py-2 rounded-full font-bold transition text-sm"
         >
-          تسجيل الدخول
+          أنشئ حساب / دخول
         </button>
       </div>
     </nav>
 
-    <!-- واجهة تسجيل الدخول -->
     <div id="loginModal" class="modal">
       <div class="bg-slate-900 border border-slate-700 w-full max-w-md p-8 rounded-[2.5rem] relative">
-        <button
-          onclick="toggleModal('loginModal')"
-          class="absolute top-6 left-6 text-slate-500 hover:text-white"
-        >
+        <button onclick="toggleModal('loginModal')" class="absolute top-6 left-6 text-slate-500 hover:text-white">
           <i class="fas fa-times text-xl"></i>
         </button>
-
-        <h2 class="text-3xl font-bold mb-2">مرحباً بك مجدداً</h2>
-        <p class="text-slate-400 mb-8 text-sm">سجل دخولك لإدارة طلبات صيانة سيارتك</p>
-
-        <div class="space-y-4">
+        <h2 class="text-3xl font-bold mb-2">تسجيل الدخول</h2>
+        <p class="text-slate-400 mb-8 text-sm">سجل دخولك الآن لتفعيل حسابك ومتابعة الطلبات</p>
+        <form onsubmit="simulateLogin(event)" class="space-y-4">
           <div>
             <label class="block text-xs mb-2 text-slate-400">رقم الجوال</label>
-            <input type="text" placeholder="05xxxxxxxx" class="w-full bg-slate-800 border border-slate-700 p-4 rounded-2xl focus:border-cyan-500 outline-none transition" />
-
+            <input id="loginPhone" type="text" required placeholder="05xxxxxxxx" class="w-full bg-slate-800 border border-slate-700 p-4 rounded-2xl focus:border-cyan-500 outline-none transition text-white" />
             <div class="mt-5"></div>
-
             <label class="block text-xs mb-2 text-slate-400">كلمة المرور</label>
-            <input type="password" placeholder="••••••••" class="w-full bg-slate-800 border border-slate-700 p-4 rounded-2xl focus:border-cyan-500 outline-none transition" />
-
-            <button
-              onclick="simulateLogin(event)"
-              class="w-full bg-cyan-500 text-slate-950 py-4 rounded-2xl font-bold hover:bg-cyan-400 transition mt-4 shadow-lg shadow-cyan-500/20"
-            >
+            <input id="loginPassword" type="password" required placeholder="••••••••" class="w-full bg-slate-800 border border-slate-700 p-4 rounded-2xl focus:border-cyan-500 outline-none transition text-white" />
+            <button type="submit" class="w-full bg-cyan-500 text-slate-950 py-4 rounded-2xl font-bold hover:bg-cyan-400 transition mt-4 shadow-lg shadow-cyan-500/20">
               دخول
             </button>
-
             <p class="text-center text-sm text-slate-500 mt-4">
               ليس لديك حساب؟
-              <span onclick="switchModal('loginModal', 'registerModal')" class="text-cyan-400 cursor-pointer hover:underline">أنشئ حساباً الآن</span>
+              <span onclick="switchModal('loginModal', 'registerModal')" class="text-cyan-400 cursor-pointer hover:underline">أنشئ حساباً جديداً</span>
             </p>
           </div>
-        </div>
+        </form>
       </div>
     </div>
 
-    <!-- واجهة إنشاء حساب جديد -->
     <div id="registerModal" class="modal">
       <div class="bg-slate-900 border border-slate-700 w-full max-w-md p-8 rounded-[2.5rem] relative">
-        <button
-          onclick="toggleModal('registerModal')"
-          class="absolute top-6 left-6 text-slate-500 hover:text-white"
-        >
+        <button onclick="toggleModal('registerModal')" class="absolute top-6 left-6 text-slate-500 hover:text-white">
           <i class="fas fa-times text-xl"></i>
         </button>
-
         <h2 class="text-3xl font-bold mb-2">إنشاء حساب جديد</h2>
-        <p class="text-slate-400 mb-8 text-sm">انضم إلينا لتتمكن من جدولة صيانة سيارتك بسهولة</p>
-
-        <div class="space-y-4">
+        <p class="text-slate-400 mb-8 text-sm">الخطوة الأولى: أنشئ حسابك لتتمكن من استخدام المنصة</p>
+        <form onsubmit="simulateRegister(event)" class="space-y-4">
           <div>
             <label class="block text-xs mb-2 text-slate-400">الاسم الكامل</label>
-            <input type="text" placeholder="الاسم الثنائي أو الثلاثي" class="w-full bg-slate-800 border border-slate-700 p-4 rounded-2xl focus:border-cyan-500 outline-none transition mb-4" />
-
+            <input id="regName" type="text" required placeholder="مثال: أحمد العتيبي" class="w-full bg-slate-800 border border-slate-700 p-4 rounded-2xl focus:border-cyan-500 outline-none transition mb-4 text-white" />
             <label class="block text-xs mb-2 text-slate-400">رقم الجوال</label>
-            <input type="text" placeholder="05xxxxxxxx" class="w-full bg-slate-800 border border-slate-700 p-4 rounded-2xl focus:border-cyan-500 outline-none transition mb-4" />
-
+            <input id="regPhone" type="text" required placeholder="05xxxxxxxx" class="w-full bg-slate-800 border border-slate-700 p-4 rounded-2xl focus:border-cyan-500 outline-none transition mb-4 text-white" />
             <label class="block text-xs mb-2 text-slate-400">كلمة المرور</label>
-            <input type="password" placeholder="••••••••" class="w-full bg-slate-800 border border-slate-700 p-4 rounded-2xl focus:border-cyan-500 outline-none transition" />
-
-            <button
-              onclick="simulateRegister(event)"
-              class="w-full bg-cyan-500 text-slate-950 py-4 rounded-2xl font-bold hover:bg-cyan-400 transition mt-6 shadow-lg shadow-cyan-500/20"
-            >
+            <input id="regPassword" type="password" required placeholder="••••••••" class="w-full bg-slate-800 border border-slate-700 p-4 rounded-2xl focus:border-cyan-500 outline-none transition text-white" />
+            <button type="submit" class="w-full bg-cyan-500 text-slate-950 py-4 rounded-2xl font-bold hover:bg-cyan-400 transition mt-6 shadow-lg shadow-cyan-500/20">
               تأكيد التسجيل
             </button>
-
             <p class="text-center text-sm text-slate-500 mt-4">
               لديك حساب بالفعل؟
-              <span onclick="switchModal('registerModal', 'loginModal')" class="text-cyan-400 cursor-pointer hover:underline">سجل دخولك</span>
+              <span onclick="switchModal('registerModal', 'loginModal')" class="text-cyan-400 cursor-pointer hover:underline">سجل دخولك مباشرة</span>
             </p>
           </div>
-        </div>
+        </form>
       </div>
     </div>
 
-    <!-- نافذة الحجز التفاعلية -->
     <div id="bookingModal" class="modal">
       <div class="bg-slate-900 border border-slate-700 w-full max-w-2xl p-8 rounded-[2.5rem] relative">
-        <button
-          onclick="toggleModal('bookingModal')"
-          class="absolute top-6 left-6 text-slate-500 hover:text-white"
-        >
+        <button onclick="toggleModal('bookingModal')" class="absolute top-6 left-6 text-slate-500 hover:text-white">
           <i class="fas fa-times text-xl"></i>
         </button>
-
-        <h2 class="text-3xl font-bold mb-6">طلب خدمة جديدة</h2>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div class="space-y-4">
-            <div>
-              <label class="block text-xs mb-2 text-slate-400">نوع الخدمة المختارة</label>
-              <select id="serviceSelect" class="w-full bg-slate-800 border border-slate-700 p-4 rounded-2xl focus:border-cyan-500 outline-none">
-                <option value="تغيير زيت">تغيير زيت</option>
-                <option value="غسيل ساطع">غسيل ساطع</option>
-                <option value="فحص كمبيوتر">فحص كمبيوتر</option>
-                <option value="بطارية">بطارية</option>
-              </select>
+        <h2 class="text-3xl font-bold mb-6"><i class="fas fa-file-invoice text-cyan-500 ml-2"></i>طلب خدمة جديدة</h2>
+        <form onsubmit="confirmBooking(event)" class="space-y-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="space-y-4">
+              <div>
+                <label class="block text-xs mb-2 text-slate-400">نوع الخدمة المختارة</label>
+                <select id="serviceSelect" onchange="updatePriceDisplay()" class="w-full bg-slate-800 border border-slate-700 p-4 rounded-2xl focus:border-cyan-500 outline-none text-white">
+                  <option value="تغيير زيت" data-price="150">تغيير زيت (150 ر.س)</option>
+                  <option value="غسيل ساطع" data-price="25">غسيل ساطع (25 ر.س)</option>
+                  <option value="فحص كمبيوتر" data-price="300">فحص كمبيوتر (300 ر.س)</option>
+                  <option value="بطارية" data-price="250">خدمة البطارية (250 ر.س)</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs mb-2 text-slate-400">نوع السيارة</label>
+                <input type="text" required id="carTypeInput" placeholder="مثال: نيسان صني 2022" class="w-full bg-slate-800 border border-slate-700 p-4 rounded-2xl focus:border-cyan-500 outline-none transition text-white" />
+              </div>
+              <div>
+                <label class="block text-xs mb-2 text-slate-400">وقت الزيارة المفصل</label>
+                <input type="datetime-local" required id="bookingTimeInput" class="w-full bg-slate-800 border border-slate-700 p-4 rounded-2xl focus:border-cyan-500 outline-none transition text-white" />
+              </div>
             </div>
-
-            <div>
-              <label class="block text-xs mb-2 text-slate-400">نوع السيارة</label>
-              <input
-                type="text"
-                placeholder="مثال: نيسان صني 2022"
-                class="w-full bg-slate-800 border border-slate-700 p-4 rounded-2xl focus:border-cyan-500 outline-none transition"
-              />
-            </div>
-          </div>
-
-          <div class="space-y-4">
-            <div class="bg-slate-800 h-full rounded-2xl border border-slate-700 p-4 flex flex-col items-center justify-center text-center">
-              <i class="fas fa-map-marked-alt text-4xl text-cyan-500 mb-2"></i>
-              <p class="text-sm font-semibold">موقع الحجز</p>
-              <p class="text-[10px] text-slate-500 mt-1">يتم الآن تحديد موقعك عبر GPS</p>
-              <button class="text-cyan-400 text-xs mt-3 bg-cyan-400/10 px-3 py-1 rounded-full border border-cyan-400/20 hover:bg-cyan-400/20 transition">
-                تغيير الموقع يدوياً
-              </button>
+            <div class="space-y-4">
+              <div class="bg-slate-800 h-full rounded-2xl border border-slate-700 p-4 flex flex-col items-center justify-center text-center">
+                <i class="fas fa-map-marked-alt text-4xl text-cyan-500 mb-2"></i>
+                <p class="text-sm font-semibold">موقع الحجز</p>
+                <p id="locationStatusText" class="text-[10px] text-green-400 mt-1"><i class="fas fa-check-circle ml-1"></i> تم تحديد موقعك التلقائي عبر GPS</p>
+                <button type="button" onclick="changeLocationManually()" class="text-cyan-400 text-xs mt-3 bg-cyan-400/10 px-3 py-1 rounded-full border border-cyan-400/20 hover:bg-cyan-400/20 transition">
+                  تغيير الموقع يدوياً
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-
-        <button
-          onclick="confirmBooking(event)"
-          class="w-full bg-cyan-500 text-slate-950 py-4 rounded-2xl font-bold hover:bg-cyan-400 transition mt-8 text-lg flex items-center justify-center gap-3"
-        >
-          تأكيد الموعد
-          <span class="bg-slate-900/10 px-3 py-1 rounded-lg border-l border-slate-900/10">
-            <span id="priceDisplay">150</span> ريال
-          </span>
-        </button>
+          <div class="border-t border-slate-800 pt-4">
+            <label class="block text-xs mb-3 text-slate-400">طريقة الدفع المفضلة</label>
+            <div class="grid grid-cols-2 gap-4">
+              <label class="flex items-center gap-3 bg-slate-800 p-4 rounded-xl border border-slate-700 cursor-pointer">
+                <input type="radio" name="paymentMethod" value="إلكتروني" checked class="accent-cyan-500">
+                <span class="text-sm font-bold"><i class="fas fa-credit-card ml-2 text-cyan-400"></i>دفع إلكتروني (مدى/فيزا)</span>
+              </label>
+              <label class="flex items-center gap-3 bg-slate-800 p-4 rounded-xl border border-slate-700 cursor-pointer">
+                <input type="radio" name="paymentMethod" value="نقدي" class="accent-cyan-500">
+                <span class="text-sm font-bold"><i class="fas fa-money-bill-wave ml-2 text-green-400"></i>دفع نقدي للفني</span>
+              </label>
+            </div>
+          </div>
+          <button type="submit" class="w-full bg-cyan-500 text-slate-950 py-4 rounded-2xl font-bold hover:bg-cyan-400 transition mt-4 text-lg flex items-center justify-center gap-3 shadow-lg">
+            تأكيد الموعد وإصدار الفاتورة
+            <span class="bg-slate-900/10 px-3 py-1 rounded-lg border-l border-slate-900/10">
+              <span id="priceDisplay">150</span> ريال
+            </span>
+          </button>
+        </form>
       </div>
     </div>
 
-    <!-- نافذة "عن المشروع" -->
+    <div id="invoiceModal" class="modal">
+      <div class="bg-white text-slate-900 w-full max-w-md p-8 rounded-[2.5rem] relative border-4 border-cyan-500">
+        <button onclick="toggleModal('invoiceModal')" class="absolute top-6 left-6 text-slate-400 hover:text-slate-900">
+          <i class="fas fa-times text-xl"></i>
+        </button>
+        <div class="text-center mb-6">
+          <div class="text-cyan-600 text-4xl mb-2"><i class="fas fa-file-circle-check"></i></div>
+          <h2 class="text-2xl font-black text-slate-900">فاتورة ضريبية مبسطة</h2>
+          <p class="text-xs text-slate-500">منصة خدمتك لتقنية المعلومات</p>
+        </div>
+        <div class="border-b border-dashed border-slate-300 pb-4 space-y-2 text-sm">
+          <div class="flex justify-between"><strong>رقم الفاتورة:</strong> <span id="invId">#INV-9821</span></div>
+          <div class="flex justify-between"><strong>التاريخ والوقت:</strong> <span id="invDate">--</span></div>
+          <div class="flex justify-between"><strong>نوع السيارة:</strong> <span id="invCar">--</span></div>
+          <div class="flex justify-between"><strong>طريقة الدفع:</strong> <span id="invMethod" class="text-cyan-600 font-bold">--</span></div>
+        </div>
+        <div class="py-4 border-b border-dashed border-slate-300 space-y-2 text-sm">
+          <div class="flex justify-between">
+            <span id="invService">الخدمة المطلوبة</span>
+            <span id="invSubtotal">0.00 ر.س</span>
+          </div>
+          <div class="flex justify-between text-xs text-slate-500">
+            <span>ضريبة القيمة المضافة (15%)</span>
+            <span id="invTax">0.00 ر.س</span>
+          </div>
+        </div>
+        <div class="pt-4 flex justify-between items-center text-lg font-black text-slate-900 mb-6">
+          <span>الإجمالي الشامل:</span>
+          <span id="invTotal" class="text-xl text-cyan-600">0.00 ر.س</span>
+        </div>
+        <div class="bg-slate-100 p-4 rounded-2xl text-center text-xs text-slate-600 font-bold">
+          <i class="fas fa-shield-halved ml-1 text-green-600"></i> تم إصدار وتأكيد الفاتورة إلكترونياً بنجاح!
+        </div>
+        <button onclick="toggleModal('invoiceModal')" class="w-full mt-4 bg-slate-900 text-white py-3 rounded-xl font-bold hover:bg-slate-800 transition">إغلاق وتتبع الفني</button>
+      </div>
+    </div>
+
+    <div id="ratingModal" class="modal">
+      <div class="bg-slate-900 border border-slate-700 w-full max-w-md p-8 rounded-[2.5rem] text-center relative">
+        <div class="w-20 h-20 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-4 text-green-400 text-3xl">
+          <i class="fas fa-circle-check"></i>
+        </div>
+        <h2 class="text-2xl font-bold mb-2">تم إنجاز الخدمة بنجاح!</h2>
+        <p class="text-slate-400 text-sm mb-6">يسعدنا تقديم تقييمك لمستوى الفني لضمان جودتنا المستمرة</p>
+        <div class="flex justify-center gap-3 text-3xl text-slate-600 mb-8">
+          <i class="fas fa-star cursor-pointer hover:text-yellow-400 transition rating-star" onclick="setRating(1)"></i>
+          <i class="fas fa-star cursor-pointer hover:text-yellow-400 transition rating-star" onclick="setRating(2)"></i>
+          <i class="fas fa-star cursor-pointer hover:text-yellow-400 transition rating-star" onclick="setRating(3)"></i>
+          <i class="fas fa-star cursor-pointer hover:text-yellow-400 transition rating-star" onclick="setRating(4)"></i>
+          <i class="fas fa-star cursor-pointer hover:text-yellow-400 transition rating-star" onclick="setRating(5)"></i>
+        </div>
+        <textarea id="ratingComment" rows="3" placeholder="اكتب رأيك هنا (اختياري)..." class="w-full bg-slate-800 border border-slate-700 p-4 rounded-xl text-sm outline-none focus:border-cyan-500 text-white mb-6 resize-none"></textarea>
+        <button onclick="submitRating()" class="w-full bg-cyan-500 text-slate-950 py-3 rounded-xl font-bold hover:bg-cyan-400 transition">إرسال التقييم</button>
+      </div>
+    </div>
+
+    <div id="adminDashboardModal" class="modal">
+      <div class="bg-slate-900 border border-slate-700 w-full max-w-4xl p-8 rounded-[2.5rem] relative overflow-y-auto max-h-[90vh]">
+        <button onclick="toggleModal('adminDashboardModal')" class="absolute top-6 left-6 text-slate-500 hover:text-white">
+          <i class="fas fa-times text-xl"></i>
+        </button>
+        <h2 class="text-3xl font-black mb-2 text-yellow-400"><i class="fas fa-chart-pie ml-2"></i>لوحة إحصائيات وتقارير الإدارة</h2>
+        <p class="text-slate-400 text-sm mb-8">مراقبة حية لأداء النظام والطلبات المسجلة للفنيين الخمسة</p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+          <div class="bg-slate-800 border border-slate-700 p-5 rounded-2xl">
+            <p class="text-xs text-slate-400 font-bold">إجمالي الطلبات اليوم</p>
+            <p id="statTotalOrders" class="text-3xl font-black text-cyan-400 mt-2">14 طلب</p>
+          </div>
+          <div class="bg-slate-800 border border-slate-700 p-5 rounded-2xl">
+            <p class="text-xs text-slate-400 font-bold">الطلبات النشطة حالياً</p>
+            <p id="statActiveOrders" class="text-3xl font-black text-yellow-400 mt-2">0 نشط</p>
+          </div>
+          <div class="bg-slate-800 border border-slate-700 p-5 rounded-2xl">
+            <p class="text-xs text-slate-400 font-bold">الأرباح المحققة اليوم</p>
+            <p id="statRevenue" class="text-3xl font-black text-green-400 mt-2">2,450 ر.س</p>
+          </div>
+          <div class="bg-slate-800 border border-slate-700 p-5 rounded-2xl">
+            <p class="text-xs text-slate-400 font-bold">متوسط تقييم الخدمة</p>
+            <p class="text-3xl font-black text-yellow-400 mt-2"><i class="fas fa-star text-xs ml-1"></i>4.8 / 5</p>
+          </div>
+        </div>
+        <h3 class="text-lg font-bold mb-4 text-white"><i class="fas fa-users-gear ml-2 text-cyan-400"></i>حالة الفنيين الخمسة المعتمدين</h3>
+        <div class="overflow-x-auto rounded-2xl border border-slate-800 mb-6">
+          <table class="w-full text-right text-sm">
+            <thead class="bg-slate-800 text-slate-300 font-bold">
+              <tr>
+                <th class="p-4">اسم الفني</th>
+                <th class="p-4">المركبة واللوحة</th>
+                <th class="p-4">التقييم الحالي</th>
+                <th class="p-4">حالة التواجد الجغرافي</th>
+              </tr>
+            </thead>
+            <tbody id="techTableBody" class="divide-y divide-slate-800 bg-slate-900/50"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
     <div id="aboutModal" class="modal">
-      <div class="bg-slate-900 border border-slate-700 w-full max-w-lg p-8 rounded-[2.5rem] relative">
+      <div class="bg-slate-900 border border-slate-700 w-full max-w-xl p-8 rounded-[2.5rem] relative">
         <button onclick="toggleModal('aboutModal')" class="absolute top-6 left-6 text-slate-500 hover:text-white">
           <i class="fas fa-times text-xl"></i>
         </button>
-        <h2 class="text-3xl font-bold mb-4 text-cyan-400">عن مشروع خدمتك</h2>
-        <div class="text-slate-300 space-y-4 text-sm leading-relaxed">
-          <p>مشروع <strong>"خدمتك"</strong> هو منصة ريادية سعودية تهدف إلى إعادة ابتكار قطاع صيانة السيارات المتنقلة باستخدام التكنولوجيا الحديثة.</p>
-          <p>نحن نربط أصحاب المركبات بنخبة من الفنيين المجهزين بأحدث الأدوات والورش المتنقلة لتقديم خدمات الصيانة الفورية (تغيير زيوت، بطاريات، غسيل، فحص كمبيوتر) عند المنزل أو مكان العمل دون عناء الانتظار.</p>
-          <p class="text-cyan-400/80 font-semibold"><i class="fas fa-star text-xs ml-1"></i> رؤيتنا: توفير الراحة والأمان والجودة العالية بأسعار شفافية وبضغطة زر واحدة.</p>
+        <h2 class="text-3xl font-black mb-6 text-cyan-400 flex items-center gap-2">
+          <i class="fas fa-circle-info"></i> عن مشروع خدمتك
+        </h2>
+        <div class="text-slate-300 space-y-5 text-base leading-relaxed">
+          <p>
+            مشروع <strong>"خدمتك"</strong> هو منصة ريادية سعودية تهدف إلى إعادة ابتكار قطاع صيانة السيارات المتنقلة باستخدام التكنولوجيا الحديثة.
+          </p>
+          <p>
+            نحن نربط أصحاب المركبات بنخبة من الفنيين المجهزين بأحدث الأدوات والورش المتنقلة لتقديم خدمات الصيانة الفورية (تغيير زيوت، بطاريات، غسيل، فحص كمبيوتر) عند المنزل أو مكان العمل دون عناء الانتظار.
+          </p>
+          <div class="bg-cyan-500/10 border border-cyan-500/20 p-4 rounded-2xl mt-4">
+            <p class="text-cyan-400 font-bold mb-1"><i class="fas fa-eye ml-1"></i> رؤيتنا:</p>
+            <p class="text-sm text-slate-300">توفير الراحة والأمان والجودة العالية بأسعار شفافية وبضغطة زر واحدة.</p>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- نافذة "سياسة الخصوصية" -->
     <div id="privacyModal" class="modal">
-      <div class="bg-slate-900 border border-slate-700 w-full max-w-lg p-8 rounded-[2.5rem] relative">
+      <div class="bg-slate-900 border border-slate-700 w-full max-w-xl p-8 rounded-[2.5rem] relative">
         <button onclick="toggleModal('privacyModal')" class="absolute top-6 left-6 text-slate-500 hover:text-white">
           <i class="fas fa-times text-xl"></i>
         </button>
-        <h2 class="text-3xl font-bold mb-4 text-cyan-400">سياسة الخصوصية</h2>
-        <div class="text-slate-300 space-y-4 text-xs leading-relaxed max-h-[60vh] overflow-y-auto pr-2">
-          <p>خصوصيتك تهمنا جداً. يوضح هذا البند كيفية جمع بياناتك وحمايتها داخل تطبيق وموقع <strong>"خدمتك"</strong>:</p>
-          <ul class="list-disc list-inside space-y-2 text-slate-400">
-            <li><strong>الموقع الجغرافي:</strong> نستخدم نظام الـ GPS لتحديد موقع مركبتك بدقة لضمان وصول الورشة المتنقلة إليك بطلبك.</li>
-            <li><strong>بيانات الحساب:</strong> نحتفظ باسمك ورقم جوالك لتأكيد الحجوزات والتواصل معك بشأن حالة الخدمة.</li>
-            <li><strong>أمن البيانات:</strong> يتم تشفير جميع المعلومات والبيانات الشخصية لضمان عدم مشاركتها مع أي جهات خارجية غير مصرح لها.</li>
-          </ul>
-          <p class="text-slate-500 text-[11px] mt-2">استخدامك للموقع يعني موافقتك على جمع هذه البيانات لغرض تحسين جودة الصيانة وتتبع الفنيين.</p>
+        <h2 class="text-3xl font-black mb-4 text-cyan-400 flex items-center gap-2">
+          <i class="fas fa-user-shield"></i> سياسة الخصوصية
+        </h2>
+        <p class="text-sm text-slate-400 mb-6">
+          خصوصيتك تهمنا جداً. يوضح هذا البند كيفية جمع بياناتك وحمايتها داخل تطبيق وموقع "خدمتك":
+        </p>
+        <div class="space-y-4">
+          <div class="bg-slate-800/60 border border-slate-700/50 p-4 rounded-2xl flex gap-4 items-start">
+            <div class="bg-cyan-500/10 p-2.5 rounded-xl text-cyan-400"><i class="fas fa-location-crosshairs text-lg"></i></div>
+            <div>
+              <h4 class="font-bold text-white text-sm mb-1">الموقع الجغرافي:</h4>
+              <p class="text-xs text-slate-400 leading-relaxed">نستخدم نظام الـ GPS لتحديد موقع مركبتك بدقة لضمان وصول الورشة المتنقلة إليك بطلبك.</p>
+            </div>
+          </div>
+
+          <div class="bg-slate-800/60 border border-slate-700/50 p-4 rounded-2xl flex gap-4 items-start">
+            <div class="bg-cyan-500/10 p-2.5 rounded-xl text-cyan-400"><i class="fas fa-id-card text-lg"></i></div>
+            <div>
+              <h4 class="font-bold text-white text-sm mb-1">بيانات الحساب:</h4>
+              <p class="text-xs text-slate-400 leading-relaxed">نحتفظ باسمك ورقم جوالك لتأكيد الحجوزات والتواصل معك بشأن حالة الخدمة.</p>
+            </div>
+          </div>
+
+          <div class="bg-slate-800/60 border border-slate-700/50 p-4 rounded-2xl flex gap-4 items-start">
+            <div class="bg-cyan-500/10 p-2.5 rounded-xl text-cyan-400"><i class="fas fa-lock text-lg"></i></div>
+            <div>
+              <h4 class="font-bold text-white text-sm mb-1">أمن البيانات:</h4>
+              <p class="text-xs text-slate-400 leading-relaxed">يتم تشفير جميع المعلومات والبيانات الشخصية لضمان عدم مشاركتها مع أي جهات خارجية غير مصرح لها.</p>
+            </div>
+          </div>
+        </div>
+        <div class="mt-6 border-t border-slate-800 pt-4 text-center text-xs text-slate-500 font-medium">
+          <i class="fas fa-circle-info ml-1 text-cyan-500"></i> استخدامك للموقع يعني موافقتك على جمع هذه البيانات لغرض تحسين جودة الصيانة وتتبع الفنيين.
         </div>
       </div>
     </div>
 
-    <!-- قسم الترحيب الرئيسي -->
-    <header class="container mx-auto px-4 py-20 text-center relative z-10">
+    <header class="container mx-auto px-4 py-20 text-center relative">
       <div class="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 bg-cyan-500/10 blur-[100px] pointer-events-none"></div>
-
       <div class="inline-block bg-cyan-500/10 text-cyan-400 px-4 py-1 rounded-full text-xs font-bold mb-6 border border-cyan-500/20">
         أول ورشة متنقلة ذكية في المملكة
       </div>
-
       <h1 class="text-5xl md:text-7xl font-extrabold mb-6 leading-tight">
         سيارتك خربانة؟ <br />
         <span class="text-cyan-400">ورشتنا تجيك لمكانك</span>
       </h1>
-
       <p class="text-slate-400 text-lg max-w-2xl mx-auto mb-10">
         غسيل، تغيير زيت، فحص كمبيوتر، وبطاريات.. نخدمك عند البيت أو العمل بضغطة زر واحدة بأسعار تنافسية وضمان معتمد.
       </p>
-
       <div class="flex flex-wrap justify-center gap-4">
-        <button
-          onclick="toggleModal('bookingModal')"
-          class="bg-cyan-500 text-slate-950 px-10 py-5 rounded-2xl font-bold text-lg flex items-center gap-2 cyan-glow hover:scale-105 transition-all"
-        >
+        <button onclick="toggleModal('bookingModal')" class="bg-cyan-500 text-slate-950 px-10 py-5 rounded-2xl font-bold text-lg flex items-center gap-2 cyan-glow hover:scale-105 transition-all">
           <i class="fas fa-calendar-plus"></i> احجز موعدك الآن
         </button>
-
-        <button
-          onclick="document.getElementById('services').scrollIntoView({behavior: 'smooth'})"
-          class="border border-slate-700 hover:bg-slate-800 px-10 py-5 rounded-2xl font-bold text-lg transition-all"
-        >
-          استكشف خدماتنا
+        <button onclick="document.getElementById('services').scrollIntoView({behavior: 'smooth'})" class="border border-slate-700 hover:bg-slate-800 px-10 py-5 rounded-2xl font-bold text-lg transition-all">
+          استكشف خدماتنا والأسعار
         </button>
       </div>
     </header>
 
-    <!-- قسم الخدمات -->
-    <section id="services" class="container mx-auto px-4 py-20 relative z-10">
+    <section id="services" class="container mx-auto px-4 py-20">
       <div class="text-right mb-12">
         <h2 class="text-4xl font-bold mb-3">
           خدماتنا <span class="text-cyan-500 underline decoration-cyan-500/30 underline-offset-8">الاحترافية</span>
         </h2>
         <p class="text-slate-400">كل ما تحتاجه للعناية بسيارتك في مكان واحد، وبدون ما تروح للورشة</p>
       </div>
-
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <div onclick="openBookingWithService('تغيير زيت', 150)" class="bg-slate-800/40 border border-slate-700 p-8 rounded-[2.5rem] hover:border-cyan-500/50 hover:-translate-y-2 transition-all cursor-pointer group backdrop-blur-sm">
           <div class="w-16 h-16 bg-cyan-500/10 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-cyan-500 transition-colors">
             <i class="fas fa-droplet text-cyan-400 group-hover:text-slate-900 text-3xl"></i>
           </div>
           <h3 class="text-2xl font-bold mb-3">تغيير الزيت</h3>
-          <p class="text-slate-400 text-sm mb-8 leading-relaxed">نستخدم أفضل أنواع الزيوت العالمية مع فحص شامل لـ 10 نقاط حيوية في محرك سيارتك.</p>
+          <p class="text-slate-400 text-sm mb-8 leading-relaxed">نستخدم أفضل أنواع الزييات العالمية مع فحص شامل لـ 10 نقاط حيوية.</p>
           <div class="flex justify-between items-center">
             <span class="text-cyan-400 font-extrabold text-lg">150 ر.س</span>
             <i class="fas fa-arrow-left text-slate-700 group-hover:text-cyan-400 group-hover:-translate-x-2 transition-all"></i>
           </div>
         </div>
-
         <div onclick="openBookingWithService('غسيل ساطع', 25)" class="bg-slate-800/40 border border-slate-700 p-8 rounded-[2.5rem] hover:border-cyan-500/50 hover:-translate-y-2 transition-all cursor-pointer group backdrop-blur-sm">
           <div class="w-16 h-16 bg-cyan-500/10 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-cyan-500 transition-colors">
             <i class="fas fa-shower text-cyan-400 group-hover:text-slate-900 text-3xl"></i>
           </div>
           <h3 class="text-2xl font-bold mb-3">غسيل ساطع</h3>
-          <p class="text-slate-400 text-sm mb-8 leading-relaxed">تنظيف بخار عميق للهيكل الخارجي مع تلميع الطبلون والجنوط بمواد عالية الجودة.</p>
+          <p class="text-slate-400 text-sm mb-8 leading-relaxed">تنظيف بخار عميق للهيكل الخارجي مع تلميع الطبلون والجنوط.</p>
           <div class="flex justify-between items-center">
             <span class="text-cyan-400 font-extrabold text-lg">25 ر.س</span>
             <i class="fas fa-arrow-left text-slate-700 group-hover:text-cyan-400 group-hover:-translate-x-2 transition-all"></i>
           </div>
         </div>
-
         <div onclick="openBookingWithService('فحص كمبيوتر', 300)" class="bg-slate-800/40 border border-slate-700 p-8 rounded-[2.5rem] hover:border-cyan-500/50 hover:-translate-y-2 transition-all cursor-pointer group backdrop-blur-sm">
           <div class="w-16 h-16 bg-cyan-500/10 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-cyan-500 transition-colors">
             <i class="fas fa-laptop-medical text-cyan-400 group-hover:text-slate-900 text-3xl"></i>
           </div>
           <h3 class="text-2xl font-bold mb-3">فحص كمبيوتر</h3>
-          <p class="text-slate-400 text-sm mb-8 leading-relaxed">كشف الأعطال باستخدام أجهزة متطورة تغطي جميع أنظمة السيارة الإلكترونية والميكانيكية.</p>
+          <p class="text-slate-400 text-sm mb-8 leading-relaxed">كشف الأعطال باستخدام أجهزة متطورة تغطي كافة الحساسات الإلكترونية.</p>
           <div class="flex justify-between items-center">
             <span class="text-cyan-400 font-extrabold text-lg">300 ر.س</span>
             <i class="fas fa-arrow-left text-slate-700 group-hover:text-cyan-400 group-hover:-translate-x-2 transition-all"></i>
           </div>
         </div>
-
         <div onclick="openBookingWithService('بطارية', 250)" class="bg-slate-800/40 border border-slate-700 p-8 rounded-[2.5rem] hover:border-cyan-500/50 hover:-translate-y-2 transition-all cursor-pointer group backdrop-blur-sm">
           <div class="w-16 h-16 bg-cyan-500/10 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-cyan-500 transition-colors">
             <i class="fas fa-bolt-lightning text-cyan-400 group-hover:text-slate-900 text-3xl"></i>
           </div>
           <h3 class="text-2xl font-bold mb-3">خدمة البطارية</h3>
-          <p class="text-slate-400 text-sm mb-8 leading-relaxed">فحص جهد البطارية واستبدالها عند الحاجة بأخرى جديدة مع ضمان يبدأ من سنة كاملة.</p>
+          <p class="text-slate-400 text-sm mb-8 leading-relaxed">فحص جهد البطارية واستبدالها عند الحاجة بأخرى جديدة مع الضمان.</p>
           <div class="flex justify-between items-center">
             <span class="text-cyan-400 font-extrabold text-lg">250 ر.س</span>
             <i class="fas fa-arrow-left text-slate-700 group-hover:text-cyan-400 group-hover:-translate-x-2 transition-all"></i>
@@ -486,27 +559,21 @@
       </div>
     </section>
 
-    <!-- قسم تتبع الفني المباشر والتحديثات الفوريه -->
-    <section id="tracking" class="bg-slate-900/80 py-24 px-4 border-y border-slate-800/50 relative z-10">
+    <section id="tracking" class="bg-slate-900/80 py-24 px-4 border-y border-slate-800/50">
       <div class="container mx-auto grid lg:grid-cols-2 gap-20 items-center">
         <div class="relative order-2 lg:order-1">
           <div class="absolute -top-10 -left-10 w-64 h-64 bg-cyan-500/10 rounded-full blur-[100px] pointer-events-none"></div>
-
           <div class="bg-slate-800 p-6 rounded-[3rem] border border-slate-700 relative z-10 shadow-2xl overflow-hidden">
             <div class="bg-slate-950 w-full h-96 rounded-3xl overflow-hidden relative">
               <div class="absolute inset-0 opacity-20 pointer-events-none" style="background-image: radial-gradient(#1e293b 1px, transparent 1px); background-size: 20px 20px;"></div>
-
-              <!-- مؤشر التتبع على الخريطة -->
-              <div id="tracker" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-all duration-700 flex flex-col items-center">
+              <div id="tracker" class="absolute top-1/2 right-[10%] transition-all duration-1000 flex flex-col items-center opacity-30">
                 <div id="vehicleLabel" class="bg-cyan-500 text-slate-950 px-3 py-1 rounded-full text-[10px] font-bold mb-2 whitespace-nowrap">سيارة الخدمة هنا</div>
                 <i class="fas fa-car-side text-cyan-400 text-4xl animate-float"></i>
                 <div class="w-8 h-2 bg-black/40 blur-sm rounded-full mt-1"></div>
               </div>
-
-              <!-- لوحة المسافة التفاعلية السفلى -->
               <div class="absolute bottom-6 left-6 right-6 bg-slate-900/90 p-4 rounded-2xl border border-slate-700/50 backdrop-blur-xl flex justify-between items-center">
                 <div>
-                  <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">المسافة المقدرة</p>
+                  <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">المسافة وحالة الموعد</p>
                   <p class="text-xl font-extrabold text-cyan-400" id="distText">في انتظار طلبك</p>
                 </div>
                 <i class="fas fa-route text-slate-700 text-2xl"></i>
@@ -517,44 +584,41 @@
 
         <div class="order-1 lg:order-2">
           <span class="text-cyan-400 font-bold tracking-widest text-sm uppercase px-4 py-1 bg-cyan-500/10 rounded-full border border-cyan-500/20">
-            تتبع حي ومباشر
+            تتبع حي ومباشر للطلب والمسار
           </span>
           <h2 class="text-4xl md:text-5xl font-bold mt-6 mb-8 leading-tight">
             راقب وصول الفني <br />
-            <span class="text-slate-500 italic">بدقة تامة</span>
+            <span class="text-slate-500 italic">بدقة تامة واحترافية</span>
           </h2>
           <p class="text-slate-400 text-lg mb-10 leading-relaxed">
-            نظام "خدمتك" الذكي يربطك فوراً بأقرب ورشة متنقلة متوفرة في منطقتك. تابع مسار الفني
-            على الخريطة من لحظة انطلاقه وحتى وصوله لباب منزلك.
+            نظام تعيين الفني الآلي يبحث جغرافياً ليربطك بـ <strong>أقرب فني متاح</strong> من الفنيين الخمسة المعتمدين في منطقتك لضمان السرعة والكفاءة.
           </p>
 
-          <!-- 🔄 تفعيل قسم التحديثات الفورية الحية وبيانات الـ 5 فنيين -->
           <div class="space-y-6">
-            <!-- كرت التحديثات الفورية التفاعلي -->
             <div class="flex items-start gap-5 p-6 bg-slate-800/40 rounded-3xl border border-slate-700/50">
               <div class="bg-cyan-500/10 p-3 rounded-2xl text-cyan-400">
                 <i class="fas fa-clock-rotate-left text-xl" id="statusIcon"></i>
               </div>
               <div class="w-full">
                 <div class="flex justify-between items-center">
-                  <h4 class="font-bold text-lg">تحديثات فورية لحالة الطلب</h4>
+                  <h4 class="font-bold text-lg">تحديثات فورية لحالة الطلب والإشعارات</h4>
                   <span id="liveBadge" class="hidden bg-green-500/20 text-green-400 text-[10px] font-bold px-2 py-0.5 rounded-full animate-pulse">مباشر الآن</span>
                 </div>
                 <p id="statusTimelineText" class="text-sm text-slate-400 mt-1">قم بطلب خدمة لتفعيل تتبع خط سير الورشة خطوة بخطوة.</p>
               </div>
             </div>
 
-            <!-- كرت بيانات الفني (يظهر ديناميكياً عند اختيار أحد الفنيين الخمسة) -->
             <div id="techCard" class="flex items-center gap-5 p-6 bg-slate-800/80 rounded-3xl border border-cyan-500/30 transition-all duration-500 opacity-40">
               <div class="relative">
-                <div id="techAvatar" class="w-16 h-16 bg-slate-700 rounded-2xl flex items-center justify-center text-slate-400 font-bold text-xl border-2 border-slate-600">
+                <div id="techAvatar" class="w-16 h-16 bg-slate-700 text-white rounded-2xl flex items-center justify-center font-bold text-xl border-2 border-slate-600">
                   <i class="fas fa-user-gear"></i>
                 </div>
               </div>
               <div class="flex-1">
+                <div class="text-xs text-yellow-400 font-bold mb-1"><i class="fas fa-street-view ml-1"></i>تم تعيين أقرب فني لموقعك تلقائياً:</div>
                 <h4 id="techName" class="font-bold text-lg text-slate-400">لم يتم اختيار فني</h4>
-                <div class="flex items-center gap-4 mt-1 text-xs text-slate-500">
-                  <span id="techStars"><i class="fas fa-star text-slate-600 ml-1"></i> --</span>
+                <div class="flex items-center gap-4 mt-1 text-xs text-slate-400">
+                  <span id="techStars"><i class="fas fa-star text-yellow-500 ml-1"></i> --</span>
                   <span id="techVehicle"><i class="fas fa-truck-pickup ml-1"></i> --</span>
                   <span id="techPlate" class="bg-slate-900 px-2 py-0.5 rounded text-[10px] font-mono tracking-wider border border-slate-700 hidden"></span>
                 </div>
@@ -565,74 +629,91 @@
       </div>
     </section>
 
-    <!-- التذييل النهائي -->
-    <footer class="container mx-auto py-16 px-4 text-center relative z-10">
+    <footer class="container mx-auto py-16 px-4 text-center">
       <div class="flex flex-col items-center gap-6 mb-12">
-        <div
-          class="flex items-center gap-2 cursor-pointer group"
-          onclick="window.scrollTo({top: 0, behavior: 'smooth'})"
-        >
+        <div class="flex items-center gap-2 cursor-pointer group" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
           <div class="bg-cyan-500/20 p-3 rounded-2xl text-cyan-500 group-hover:scale-110 transition-transform">
             <i class="fas fa-car-wrench text-2xl"></i>
           </div>
-          <span class="text-3xl font-bold tracking-tighter italic">
-            خدمـ<span class="text-cyan-400 text-4xl">ك</span>
-          </span>
+          <span class="text-3xl font-bold tracking-tighter italic">خدمـ<span class="text-cyan-400 text-4xl">تك</span></span>
         </div>
         <p class="text-slate-500 max-w-sm">نحن نغير مفهوم صيانة السيارات في المملكة. الراحة، الجودة، والسرعة هي وعودنا لك.</p>
       </div>
-
       <div class="flex flex-wrap justify-center gap-8 text-slate-400 text-sm font-medium mb-12">
         <a href="javascript:void(0)" onclick="toggleModal('aboutModal')" class="hover:text-cyan-400 transition">عن المشروع</a>
         <a href="javascript:void(0)" onclick="toggleModal('privacyModal')" class="hover:text-cyan-400 transition">الخصوصية</a>
-        <a href="javascript:void(0)" onclick="showToast('قريباً: فتح تذكرة دعم مباشر')" class="hover:text-cyan-400 transition">تواصل معنا</a>
-        <a href="javascript:void(0)" onclick="showToast('مركز الأسئلة الشائعة تحت التطوير حالياً')" class="hover:text-cyan-400 transition">الأسئلة الشائعة</a>
-      </div>
-
-      <div class="pt-8 border-t border-slate-800/50 text-slate-600 text-[10px] uppercase tracking-[0.2em]">
-        &copy; 2026 KHEDMETAK TECHNOLOGY. ALL RIGHTS RESERVED.
+        <a href="javascript:void(0)" onclick="toggleModal('adminDashboardModal')" class="text-yellow-400 hover:underline transition">إحصائيات الإدارة والتقارير</a>
       </div>
     </footer>
 
     <script>
-      // 🛠️ قاعدة بيانات الفنيين الـ 5 المعتمدين في النظام
+      // قاعدة بيانات الفنيين الـ 5 المعتمدين في النظام
       const techniciansDatabase = [
-        { name: "خالد العتيبي", rating: "4.9", initial: "خ", vehicle: "GMC متنقلة", plate: "ر س ق ٨ ٨ ٢ 1" },
-        { name: "عبدالرحمن الشمري", rating: "4.8", initial: "ع", vehicle: "فورد صيانة", plate: "أ ب ط ٥ ٠ ٣ 2" },
-        { name: "فهد الدوسري", rating: "4.7", initial: "ف", vehicle: "تويوتا هيلوكس", plate: "م د ن ١ ١ ٤ 7" },
-        { name: "سلطان المطيري", rating: "4.9", initial: "س", vehicle: "نيسان رابيد", plate: "ح ك م ٩ ٩ ٧ 3" },
-        { name: "ماجد القحطاني", rating: "4.6", initial: "م", vehicle: "إيسوزو ورشة", plate: "ل ر و ٤ ٢ ٦ 5" }
+        { name: "خالد العتيبي", rating: "4.9", initial: "خ", vehicle: "GMC متنقلة", plate: "ر س ق ٨ ٨ ٢ ١", status: "نشط - في مهمة" },
+        { name: "عبدالرحمن الشمري", rating: "4.8", initial: "ع", vehicle: "فورد صيانة", plate: "أ ب ط ٥ ٠ ٣ ٢", status: "متاح" },
+        { name: "فهد الدوسري", rating: "4.7", initial: "ف", vehicle: "تويوتا هيلوكس", plate: "م د ن ١ ١ ٤ ٧", status: "متاح" },
+        { name: "سلطان المطيري", rating: "4.9", initial: "س", vehicle: "نيسان رابيد", plate: "ح ك م ٩ ٩ ٧ ٣", status: "متاح" },
+        { name: "ماجد القحطاني", rating: "4.6", initial: "م", vehicle: "إيسوزو ورشة", plate: "ل ر و ٤ ٢ ٦ ٥", status: "متاح" }
       ];
 
-      // خطوات التحديثات الفورية المتتالية
+      // خطوات التحديثات الفورية المتتالية للطلب
       const statusSteps = [
-        { text: "تم قبول طلبك وجاري مراجعته من مركز العمليات الإلكتروني.", icon: "fa-circle-check", toast: "تم قبول الطلب!" },
-        { text: "يقوم الفني الآن بتجهيز المعدات وقطع الغيار المطلوبة لسيارتك.", icon: "fa-boxes-packing", toast: "جاري تجهيز قطع الغيار للمهمة" },
-        { text: "انطلق الفني الآن باتجاه موقعك عبر أسرع مسار متاح.", icon: "fa-truck-fast", toast: "الفني تحرك الآن وفي طريقه إليك" },
-        { text: "الفني أصبح قريباً جداً من حيك السكني، يرجى البقاء بالقرب من الجوال.", icon: "fa-location-dot", toast: "الورشة قريبة جداً من موقعك" }
+        { text: "تنبيه: تم استقبال طلبك الإلكتروني وجاري تعيين أقرب ورشة متنقلة لكم.", icon: "fa-circle-check", toast: "إشعار جديد: تم استقبال طلبك" },
+        { text: "تنبيه للفني: تم تخصيص طلبك وتحديد موقع العميل وجاري تجهيز المعدات.", icon: "fa-boxes-packing", toast: "إشعار: الفني يجهز المعدات حالياً" },
+        { text: "تنبيه للعميل: تحرك الفني الآن باتجاه موقعكم المختار عبر الـ GPS.", icon: "fa-truck-fast", toast: "إشعار: الورشة المتنقلة في الطريق إليك" },
+        { text: "تنبيه للعميل: الفني متواجد الآن في موقعك لإتمام أعمال الصيانة وإنجاز الفاتورة.", icon: "fa-location-dot", toast: "إشعار: الفني وصل إلى موقعك الآن!" }
       ];
 
-      // دالة التحكم في النوافذ المنبثقة
+      // متغيرات لتخزين بيانات الحساب الجديد محلياً للمحاكاة الذكية
+      let localUserDatabase = {
+        name: "",
+        phone: "",
+        password: ""
+      };
+
+      let trackingInterval = null;
+      let selectedRating = 0;
+      let currentScene = 1;
+      let sceneInterval = null;
+
+      // تهيئة العرض التلقائي
+      window.addEventListener('DOMContentLoaded', () => {
+        renderAdminDashboard();
+        startPresentationRotation();
+      });
+
+      function startPresentationRotation() {
+        sceneInterval = setInterval(() => {
+          if (currentScene < 3) {
+            document.getElementById(`scene-${currentScene}`).classList.remove('active-scene');
+            currentScene++;
+            document.getElementById(`scene-${currentScene}`).classList.add('active-scene');
+          } else {
+            clearInterval(sceneInterval);
+          }
+        }, 4000);
+      }
+
+      function closePresentation() {
+        if(sceneInterval) clearInterval(sceneInterval);
+        const overlay = document.getElementById("presentationOverlay");
+        overlay.style.transition = "opacity 0.5s ease";
+        overlay.style.opacity = "0";
+        setTimeout(() => {
+          overlay.style.display = "none";
+        }, 500);
+      }
+
       function toggleModal(id) {
         const modal = document.getElementById(id);
         modal.classList.toggle("active");
-        if (modal.classList.contains("active")) {
-          document.body.style.overflow = "hidden";
-        } else {
-          document.body.style.overflow = "auto";
-        }
       }
 
-      // دالة التبديل الذكي والمباشر بين الموديلات
       function switchModal(currentId, nextId) {
-        const currentModal = document.getElementById(currentId);
-        const nextModal = document.getElementById(nextId);
-        
-        currentModal.classList.remove("active");
-        nextModal.classList.add("active");
+        document.getElementById(currentId).classList.remove("active");
+        document.getElementById(nextId).classList.add("active");
       }
 
-      // دالة إظهار التنبيهات
       function showToast(msg) {
         const toast = document.getElementById("toast");
         toast.innerText = msg;
@@ -641,212 +722,196 @@
         setTimeout(() => {
           toast.style.opacity = "0";
           toast.style.transform = "translateY(10px) translateX(-50%)";
-        }, 3000);
+        }, 3500);
       }
 
-      // تسجيل دخول وهمي
-      function simulateLogin(e) {
-        const btn = e.target.closest("button");
-        const originalText = btn.innerHTML;
+      // 1. مرحلة إنشاء الحساب
+      function simulateRegister(event) {
+        event.preventDefault();
+        localUserDatabase.name = document.getElementById("regName").value;
+        localUserDatabase.phone = document.getElementById("regPhone").value;
+        localUserDatabase.password = document.getElementById("regPassword").value;
 
-        btn.innerHTML = '<i class="fas fa-spinner animate-spin"></i> جاري الدخول...';
-        btn.disabled = true;
-
-        setTimeout(() => {
-          toggleModal("loginModal");
-          showToast("مرحباً بك! تم تسجيل الدخول بنجاح.");
-          btn.innerHTML = originalText;
-          btn.disabled = false;
-        }, 1500);
-      }
-
-      // محاكاة تسجيل حساب جديد وهمي
-      function simulateRegister(e) {
-        const btn = e.target.closest("button");
-        const originalText = btn.innerHTML;
-
-        btn.innerHTML = '<i class="fas fa-spinner animate-spin"></i> جاري إنشاء الحساب...';
-        btn.disabled = true;
+        showToast(`تم إنشاء حسابك بنجاح يا ${localUserDatabase.name.split(" ")[0]}! يرجى تسجيل الدخول لتأكيده.`);
+        document.getElementById("loginPhone").value = localUserDatabase.phone;
 
         setTimeout(() => {
           switchModal("registerModal", "loginModal");
-          showToast("تم إنشاء الحساب بنجاح! يمكنك الآن تسجيل الدخول.");
-          btn.innerHTML = originalText;
-          btn.disabled = false;
-        }, 1500);
-      }
-
-      // اختيار خدمة معينة
-      function openBookingWithService(name, price) {
-        document.getElementById("serviceSelect").value = name;
-        document.getElementById("priceDisplay").innerText = price;
-        toggleModal("bookingModal");
-      }
-
-      // محاكاة حركة التتبع الحية والتحديثات الفورية لـ 5 فنيين
-      let __trackingInterval = null;
-      let __statusInterval = null;
-
-      function startLiveTracking(selectedTech) {
-        const tracker = document.getElementById("tracker");
-        const distText = document.getElementById("distText");
-        const vehicleLabel = document.getElementById("vehicleLabel");
-        const statusTimelineText = document.getElementById("statusTimelineText");
-        const statusIcon = document.getElementById("statusIcon");
-        const liveBadge = document.getElementById("liveBadge");
-
-        if (__trackingInterval) clearInterval(__trackingInterval);
-        if (__statusInterval) clearInterval(__statusInterval);
-
-        distText.classList.remove("text-green-400");
-        distText.classList.add("text-cyan-400");
-        liveBadge.classList.remove("hidden");
-
-        // ضبط اسم الفني فوق أيقونة المركبة التفاعلية
-        vehicleLabel.innerText = `ورشة الفني: ${selectedTech.name}`;
-
-        let distance = 5.2;
-        let currentStepIndex = 0;
-
-        // 1. نظام محاكاة تحديث الخطوات الفورية كل 4 ثوانٍ بشكل مستقل ومتزامن
-        statusTimelineText.innerText = statusSteps[0].text;
-        statusIcon.className = `fas ${statusSteps[0].icon} text-xl text-cyan-400`;
-
-        __statusInterval = setInterval(() => {
-          currentStepIndex++;
-          if (currentStepIndex < statusSteps.length) {
-            statusTimelineText.innerText = statusSteps[currentStepIndex].text;
-            statusIcon.className = `fas ${statusSteps[currentStepIndex].icon} text-xl text-cyan-400`;
-            showToast(statusSteps[currentStepIndex].toast);
-          } else {
-            clearInterval(__statusInterval);
-          }
-        }, 4500);
-
-        // 2. نظام محاكاة تتبع الخريطة والمسافة الكيلومترية
-        __trackingInterval = setInterval(() => {
-          distance -= 0.15;
-
-          if (distance <= 0) {
-            distText.innerText = "وصل الفني لباب بيتك الآن!";
-            distText.classList.add("text-green-400");
-            distText.classList.remove("text-cyan-400");
-            statusTimelineText.innerText = `وصل الفني ${selectedTech.name} لموقعك بنجاح وبدأ العمل على المركبة.`;
-            statusIcon.className = "fas fa-circle-check text-xl text-green-400";
-            liveBadge.classList.add("hidden");
-            clearInterval(__trackingInterval);
-            __trackingInterval = null;
-          } else {
-            distText.innerText = `يبعد ${distance.toFixed(1)} كم عنك`;
-            tracker.style.left = 50 + (Math.random() * 6 - 3) + "%";
-            tracker.style.top = 50 + (Math.random() * 6 - 3) + "%";
-          }
         }, 1200);
       }
 
-      // تأكيد الحجز واختيار فني عشوائي من الـ 5
-      function confirmBooking(e) {
-        showToast("جاري إرسال طلبك ومطابقته مع أقرب ورشة متنقلة...");
+      // 2. مرحلة تسجيل الدخول
+      function simulateLogin(event) {
+        event.preventDefault();
+        const inputPhone = document.getElementById("loginPhone").value;
+        const inputPass = document.getElementById("loginPassword").value;
 
-        setTimeout(() => {
-          toggleModal("bookingModal");
+        if (!localUserDatabase.phone) {
+          showToast("عذراً، لا يوجد حساب مسجل بهذا الرقم. يرجى إنشاء حساب أولاً.");
+          switchModal("loginModal", "registerModal");
+          return;
+        }
 
-          // 🎲 سحب فني عشوائي ذكي من قائمة الـ 5 فنيين المتاحين
-          const randomIndex = Math.floor(Math.random() * techniciansDatabase.length);
-          const chosenTech = techniciansDatabase[randomIndex];
-
-          // تفعيل بطاقة الفني وحقن معلوماته الفورية بالكامل في الواجهة
-          const techCard = document.getElementById("techCard");
-          const techAvatar = document.getElementById("techAvatar");
-          const techName = document.getElementById("techName");
-          const techStars = document.getElementById("techStars");
-          const techVehicle = document.getElementById("techVehicle");
-          const techPlate = document.getElementById("techPlate");
-
-          techCard.classList.remove("opacity-40", "border-cyan-500/30");
-          techCard.classList.add("border-green-500/50");
-
-          techAvatar.innerText = chosenTech.initial;
-          techAvatar.className = "w-16 h-16 bg-gradient-to-tr from-cyan-600 to-cyan-400 rounded-2xl flex items-center justify-center text-slate-950 font-black text-xl border-none shadow-md shadow-cyan-500/20";
+        if (inputPhone === localUserDatabase.phone && inputPass === localUserDatabase.password) {
+          toggleModal("loginModal");
+          showToast(`أهلاً بك مجدداً ${localUserDatabase.name.split(" ")[0]}! تم تسجيل دخولك وتفعيل الحساب بنجاح.`);
           
-          techName.innerText = chosenTech.name;
-          techName.classList.remove("text-slate-400");
-          techName.classList.add("text-white");
-
-          techStars.innerHTML = `<i class="fas fa-star text-yellow-400 ml-1"></i> ${chosenTech.rating}`;
-          techVehicle.innerHTML = `<i class="fas fa-truck-pickup text-cyan-400 ml-1"></i> ${chosenTech.vehicle}`;
-          
-          techPlate.innerText = chosenTech.plate;
-          techPlate.classList.remove("hidden");
-
-          showToast(`تم تعيين الفني ${chosenTech.name}. انزل لأسفل لرؤية مسار الورشة!`);
-
-          // التمرير التلقائي السلس إلى خريطة التتبع لمراقبة التحديثات الفورية
-          document.getElementById("tracking").scrollIntoView({ behavior: "smooth" });
-          
-          // إطلاق محاكاة التحديث المباشر
-          startLiveTracking(chosenTech);
-        }, 2000);
+          const navBtn = document.getElementById("navLoginBtn");
+          navBtn.innerText = "مرحباً: " + localUserDatabase.name.split(" ")[0];
+          navBtn.className = "bg-green-500/20 text-green-400 border border-green-500/30 px-6 py-2 rounded-full font-bold text-sm pointer-events-none";
+        } else {
+          showToast("عذراً، كلمة المرور أو رقم الجوال غير صحيح!");
+        }
       }
 
-      // تحديث السعر بناءً على الخدمة المختارة داخل المودال
-      const prices = {
-        "تغيير زيت": 150,
-        "غسيل ساطع": 25,
-        "فحص كمبيوتر": 300,
-        "بطارية": 250,
-      };
-
-      const serviceSelect = document.getElementById("serviceSelect");
-      const priceDisplay = document.getElementById("priceDisplay");
-
-      serviceSelect.addEventListener("change", function (e) {
-        priceDisplay.innerText = prices[e.target.value] || 0;
-      });
-
-      // ====== Presentation Overlay Logic ======
-      function closePresentation() {
-        const overlay = document.getElementById("presentationOverlay");
-        overlay.style.display = "none";
-        document.body.style.overflow = "auto";
-
-        if (window.__presentationStepTimer) clearInterval(window.__presentationStepTimer);
-        window.__presentationStepTimer = null;
+      function updatePriceDisplay() {
+        const select = document.getElementById("serviceSelect");
+        const price = select.options[select.selectedIndex].getAttribute("data-price");
+        document.getElementById("priceDisplay").innerText = price;
       }
 
-      function startPresentation() {
-        const overlay = document.getElementById("presentationOverlay");
-        const scenes = ["scene-1", "scene-2", "scene-3"];
+      function openBookingWithService(serviceName, price) {
+        const select = document.getElementById("serviceSelect");
+        select.value = serviceName;
+        updatePriceDisplay();
+        toggleModal("bookingModal");
+      }
 
-        overlay.style.display = "flex";
-        document.body.style.overflow = "hidden";
+      function changeLocationManually() {
+        showToast("تم تحديث موقع سيارتك جغرافياً بنجاح عبر الخريطة التفاعلية!");
+        document.getElementById("locationStatusText").innerHTML = `<i class="fas fa-map-pin ml-1 text-yellow-400"></i> تم التحديث لموقع مخصص يدوياً`;
+      }
 
-        let i = 0;
+      function confirmBooking(event) {
+        event.preventDefault();
+        const serviceSelect = document.getElementById("serviceSelect");
+        const carType = document.getElementById("carTypeInput").value;
+        const bookingTime = document.getElementById("bookingTimeInput").value;
+        const payMethod = document.querySelector('input[name="paymentMethod"]:checked')?.value || "إلكتروني";
+        const price = parseFloat(serviceSelect.options[serviceSelect.selectedIndex].getAttribute("data-price"));
+        
+        const tax = price * 0.15;
+        const total = price + tax;
 
-        const showScene = () => {
-          scenes.forEach((id) => {
-            const el = document.getElementById(id);
-            if (el) el.style.display = "none";
-          });
+        document.getElementById("invId").innerText = "#INV-" + Math.floor(1000 + Math.random() * 9000);
+        document.getElementById("invDate").innerText = bookingTime ? new Date(bookingTime).toLocaleString('ar-SA') : new Date().toLocaleString('ar-SA');
+        document.getElementById("invCar").innerText = carType;
+        document.getElementById("invMethod").innerText = payMethod;
+        document.getElementById("invService").innerText = serviceSelect.value;
+        document.getElementById("invSubtotal").innerText = price.toFixed(2) + " ر.س";
+        document.getElementById("invTax").innerText = tax.toFixed(2) + " ر.س";
+        document.getElementById("invTotal").innerText = total.toFixed(2) + " ر.س";
 
-          const current = document.getElementById(scenes[i]);
-          if (current) current.style.display = "block";
+        toggleModal("bookingModal");
+        toggleModal("invoiceModal");
+        
+        document.getElementById("statTotalOrders").innerText = "15طلب";
+        document.getElementById("statActiveOrders").innerText = "1 نشط";
+        document.getElementById("statRevenue").innerText = (2450 + total).toFixed(2) + " ر.س";
 
-          i = i + 1;
-          if (i >= scenes.length) {
-            clearInterval(window.__presentationStepTimer);
-            window.__presentationStepTimer = null;
+        startTechnicianTrackingSimulation();
+      }
+
+      function startTechnicianTrackingSimulation() {
+        if (trackingInterval) clearInterval(trackingInterval);
+
+        const tracker = document.getElementById("tracker");
+        const distText = document.getElementById("distText");
+        const liveBadge = document.getElementById("liveBadge");
+        const statusTimelineText = document.getElementById("statusTimelineText");
+        const statusIcon = document.getElementById("statusIcon");
+        const techCard = document.getElementById("techCard");
+
+        const randomTech = techniciansDatabase[Math.floor(Math.random() * techniciansDatabase.length)];
+        
+        document.getElementById("techName").innerText = randomTech.name;
+        document.getElementById("techName").className = "font-bold text-lg text-white";
+        document.getElementById("techAvatar").innerText = randomTech.initial;
+        document.getElementById("techAvatar").className = "w-16 h-16 bg-cyan-500 text-slate-950 rounded-2xl flex items-center justify-center font-bold text-xl border-2 border-cyan-400";
+        document.getElementById("techStars").innerHTML = `<i class="fas fa-star text-yellow-500 ml-1"></i> ${randomTech.rating}`;
+        document.getElementById("techVehicle").innerHTML = `<i class="fas fa-truck-pickup ml-1"></i> ${randomTech.vehicle}`;
+        
+        const plateEl = document.getElementById("techPlate");
+        plateEl.innerText = randomTech.plate;
+        plateEl.classList.remove("hidden");
+
+        techCard.classList.remove("opacity-40", "border-cyan-500/30");
+        techCard.classList.add("border-green-500", "cyan-glow");
+
+        tracker.style.opacity = "1";
+        liveBadge.classList.remove("hidden");
+
+        let step = 0;
+        distText.innerText = "جاري الحساب والاتصال...";
+
+        techniciansDatabase.forEach(t => { if(t.name === randomTech.name) t.status = "نشط - في مهمة"; });
+        renderAdminDashboard();
+
+        trackingInterval = setInterval(() => {
+          if (step < statusSteps.length) {
+            const currentStep = statusSteps[step];
+            statusTimelineText.innerText = currentStep.text;
+            showToast(currentStep.toast);
+            statusIcon.className = `fas ${currentStep.icon} text-xl text-cyan-400`;
+
+            if (step === 0) { tracker.style.right = "25%"; distText.innerText = "المسافة: 12 كم (18 دقيقة)"; }
+            if (step === 1) { tracker.style.right = "50%"; distText.innerText = "المسافة: 8 كم (11 دقيقة)"; }
+            if (step === 2) { tracker.style.right = "75%"; distText.innerText = "المسافة: 3 كم (4 دقائق)"; }
+            if (step === 3) { 
+              tracker.style.right = "50%"; 
+              distText.innerText = "وصل الفني لموقعك الآن!";
+              distText.className = "text-xl font-extrabold text-green-400";
+            }
+            step++;
+          } else {
+            clearInterval(trackingInterval);
+            setTimeout(() => {
+              document.getElementById("statActiveOrders").innerText = "0 نشط";
+              techniciansDatabase.forEach(t => { if(t.name === randomTech.name) t.status = "متاح"; });
+              renderAdminDashboard();
+              toggleModal("ratingModal");
+            }, 4000);
           }
-        };
+        }, 5000);
 
-        showScene();
-        window.__presentationStepTimer = setInterval(showScene, 4500);
+        document.getElementById('tracking').scrollIntoView({behavior: 'smooth'});
       }
 
-      // تشغيل تلقائي عند تحميل الصفحة
-      window.addEventListener("load", () => {
-        startPresentation();
-      });
+      function setRating(rating) {
+        selectedRating = rating;
+        const stars = document.querySelectorAll(".rating-star");
+        stars.forEach((star, index) => {
+          star.className = index < rating ? "fas fa-star cursor-pointer text-yellow-400 transition rating-star" : "fas fa-star cursor-pointer text-slate-600 transition rating-star";
+        });
+      }
+
+      function submitRating() {
+        if (selectedRating === 0) {
+          showToast("يرجى اختيار عدد النجوم لتقييم الخدمة أولاً.");
+          return;
+        }
+        showToast(`شكراً لك! تم تسجيل تقييمك بـ (${selectedRating} نجوم) بنجاح.`);
+        setRating(0);
+        document.getElementById("ratingComment").value = "";
+        toggleModal("ratingModal");
+      }
+
+      function renderAdminDashboard() {
+        const tbody = document.getElementById("techTableBody");
+        if (!tbody) return;
+        tbody.innerHTML = "";
+        techniciansDatabase.forEach(tech => {
+          const statusBg = tech.status.includes("نشط") ? "bg-yellow-500/20 text-yellow-400" : "bg-green-500/20 text-green-400";
+          tbody.innerHTML += `
+            <tr class="border-b border-slate-800 hover:bg-slate-800/30 transition">
+              <td class="p-4 font-bold text-white">${tech.name}</td>
+              <td class="p-4 text-slate-400">${tech.vehicle} <span class="bg-slate-900 px-2 py-0.5 rounded text-[11px] border border-slate-700 mr-2 font-mono text-slate-300">${tech.plate}</span></td>
+              <td class="p-4 font-bold text-yellow-400"><i class="fas fa-star ml-1 text-xs"></i>${tech.rating}</td>
+              <td class="p-4"><span class="px-3 py-1 rounded-full text-xs font-bold ${statusBg}">${tech.status}</span></td>
+            </tr>
+          `;
+        });
+      }
     </script>
   </body>
 </html>
